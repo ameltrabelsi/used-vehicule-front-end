@@ -1,43 +1,48 @@
-const Login = () => {
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+
+import { requestLogin } from "../store/userSlice";
+
+function Login() {
+  const dispatch = useDispatch();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(requestLogin({ email, password }));
+  };
+
   return (
-    <div className="container  my-5">
-      <form action="/action_page.php">
-        <div className="mb-3">
-          <label for="email">Email:</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            placeholder="Enter email"
-            name="email"
-          />
-        </div>
-        <div className=" mb-3">
-          <label for="pwd">Password:</label>
-          <input
-            type="password"
-            className="form-control"
-            id="pwd"
-            placeholder="Enter password"
-            name="pswd"
-          />
-        </div>
-        <div className="form-check  mb-3">
-          <label className="form-check-label">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              name="remember"
-            />{" "}
-            Remember me
-          </label>
-        </div>
-        <button type="submit" className="btn btn-primary ">
-          Submit
-        </button>
-      </form>
-    </div>
+    <Form onSubmit={handleSubmit}>
+      <Form.Group className="mb-3">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control
+          type="email"
+          placeholder="Enter email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </Form.Group>
+
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>
   );
-};
+}
 
 export default Login;

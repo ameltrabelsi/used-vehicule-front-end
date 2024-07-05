@@ -1,79 +1,72 @@
-const Register = () => {
+import { useState } from 'react';
+import { useDispatch } from 'react-redux'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
+
+import { requestRegister } from '../store/userSlice';
+
+function Register() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(requestRegister({ firstName, lastName, email, password, navigate }))
+  }
+
   return (
-    <div className="container my-5">
-      <form className="row g-3 ">
-        <div className="col-md-3  ">
-          <label for="validationDefault01" className="form-label ">
-            First name
-          </label>
-          <input type="text" className="form-control" required />
-        </div>
-        <div className="col-md-4">
-          <label for="validationDefault02" className="form-label">
-            Last name
-          </label>
-          <input type="text" className="form-control" required />
-        </div>
-        <div className="col-md-4">
-          <label for="validationDefaultUsername" className="form-label">
-            Username
-          </label>
-          <div className="input-group">
-            <span className="input-group-text"></span>
-            <input
-              type="text"
-              className="form-control"
-              id="validationDefaultUsername"
-              aria-describedby="inputGroupPrepend2"
-              required
-            />
-          </div>
-        </div>
-        <div className="col-md-6 ">
-          <label for="validationDefault03" className="form-label">
-            City
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="validationDefault03"
-            required
-          />
-        </div>
+    <Form onSubmit={handleSubmit}>
 
-        <div className="col-md-3 ">
-          <label for="validationDefault05" className="form-label">
-            Zip
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="validationDefault05"
-            required
-          />
-        </div>
-        <div className="col-12 ms-5">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="invalidCheck2"
-              required
-            />
-            <label className="form-check-label" for="invalidCheck2">
-              Agree to terms and conditions
-            </label>
-          </div>
-        </div>
-        <div className="col-12">
-          <button className="btn btn-primary ms-5" type="submit">
-            Submit Form
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-};
+      <Form.Group className="mb-3">
+        <Form.Label>First Name</Form.Label>
+        <Form.Control 
+          placeholder="Enter first name" 
+          value={firstName} 
+          onChange={e => setFirstName(e.target.value)} 
+        />
+      </Form.Group>
 
-export default Register;
+      <Form.Group className="mb-3">
+        <Form.Label>Last Name</Form.Label>
+        <Form.Control 
+          placeholder="Enter last name" 
+          value={lastName} 
+          onChange={e => setLastName(e.target.value)} 
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control 
+          type="email" 
+          placeholder="Enter email" 
+          value={email} 
+          onChange={e => setEmail(e.target.value)} 
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Password</Form.Label>
+        <Form.Control 
+          type="password" 
+          placeholder="Password" 
+          value={password} 
+          onChange={e => setPassword(e.target.value)} 
+        />
+      </Form.Group>
+
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+      
+    </Form>
+  )
+}
+
+export default Register
